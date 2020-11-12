@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "unifit"
+version = "0.1.0"
+description = "Find the best fit among a heckload of probability distributions."
+authors = ["malyvsen"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
