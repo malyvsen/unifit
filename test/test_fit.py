@@ -3,6 +3,15 @@ import unifit
 
 
 class TestFit:
-    def test_cauchy(self):
-        data = scipy.stats.cauchy.rvs(size=256)
-        unifit.fit(data)
+    data = scipy.stats.cauchy.rvs(size=256)
+
+
+    def test_basic(self):
+        unifit.fit(self.data)
+
+
+    def test_unnamed(self):
+        unifit.fit(
+            self.data,
+            distributions=unifit.distributions.values()
+        )
