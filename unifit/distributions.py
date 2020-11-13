@@ -1,57 +1,108 @@
 import scipy.stats
 
 
-impossible = [
-    'erlang',
-    'frechet_l',
-    'frechet_r',
-    'ksone',
-    'kstwo',
-    'kstwobign',
-]
-difficult = [
+# some distributions were excluded because they were:
+# * deprecated
+# * raising errors during fitting
+# * taking ages to fit (levy_stable)
+names = [
     'alpha',
+    'anglit',
     'arcsine',
     'argus',
     'beta',
     'betaprime',
+    'bradford',
+    'burr',
     'burr12',
+    'cauchy',
+    'chi',
+    'chi2',
+    'cosine',
+    'crystalball',
+    'dgamma',
+    'dweibull',
+    'expon',
     'exponnorm',
     'exponpow',
     'exponweib',
     'f',
+    'fatiguelife',
+    'fisk',
     'foldcauchy',
     'foldnorm',
+    'gamma',
     'gausshyper',
+    'genexpon',
     'genextreme',
+    'gengamma',
     'genhalflogistic',
     'geninvgauss',
     'genlogistic',
+    'gennorm',
+    'genpareto',
+    'gilbrat',
+    'gompertz',
+    'gumbel_l',
+    'gumbel_r',
     'halfcauchy',
+    'halfgennorm',
+    'halflogistic',
+    'halfnorm',
+    'hypsecant',
     'invgamma',
+    'invgauss',
     'invweibull',
+    'johnsonsb',
+    'johnsonsu',
+    'kappa3',
+    'kappa4',
+    'laplace',
     'levy',
     'levy_l',
-    'levy_stable',
     'loggamma',
+    'logistic',
     'loglaplace',
+    'lognorm',
+    'loguniform',
     'lomax',
+    'maxwell',
     'mielke',
     'moyal',
     'nakagami',
     'ncf',
     'nct',
+    'ncx2',
+    'norm',
+    'norminvgauss',
     'pareto',
+    'pearson3',
+    'powerlaw',
     'powerlognorm',
+    'powernorm',
+    'rayleigh',
+    'rdist',
+    'recipinvgauss',
+    'reciprocal',
     'rice',
+    'semicircular',
+    'skewnorm',
+    't',
+    'trapz',
+    'triang',
+    'truncexpon',
+    'truncnorm',
     'tukeylambda',
+    'uniform',
+    'vonmises',
+    'vonmises_line',
+    'wald',
+    'weibull_max',
+    'weibull_min',
+    'wrapcauchy',
 ]
 distributions = {
-    name: distribution
-    for name, distribution in {
-        attr: getattr(scipy.stats, attr)
-        for attr in dir(scipy.stats)
-    }.items()
-    if isinstance(distribution, scipy.stats.rv_continuous)
-    if name not in impossible + difficult
+    name: getattr(scipy.stats, name)
+    for name in names
+    if hasattr(scipy.stats, name) # older versions miss some distributions
 }
