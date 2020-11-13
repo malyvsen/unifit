@@ -47,5 +47,5 @@ def bic(data, distribution):
     See https://en.wikipedia.org/wiki/Bayesian_information_criterion
     '''
     parameter_loss = len(distribution.args) * math.log(len(data))
-    likelihood_loss = 2 * distribution.logpdf(data).sum()
+    likelihood_loss = -2 * distribution.logpdf(data).sum()
     return parameter_loss + likelihood_loss
