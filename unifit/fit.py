@@ -4,7 +4,7 @@ from tqdm.auto import tqdm
 from unifit.distributions import distributions
 
 
-def fit(data, distributions=distributions, loading_bar=True):
+def fit(data, *, distributions=distributions, loading_bar=True, return_name=False):
     '''
     The best-fitting distribution as measured by the Bayesian Information Criterion.
     '''
@@ -19,20 +19,26 @@ def fit(data, distributions=distributions, loading_bar=True):
     iterator = tqdm(named_distributions) if loading_bar else named_distributions
 
     with warnings.catch_warnings(record=True) as recorder:
-        fits = []
+        fits = {}
         for name, distribution in iterator:
             if loading_bar:
                 iterator.set_description(f'Fitting {name}')
-            fits.append(distribution(*distribution.fit(data)))
+            try:
+                fits[name] = distribution(*distribution.fit(data))
+            except ValueError:
+                pass
+        best_name, best_fit = min(
+            fits.items(),
+            key=lambda named_fit: bic(data, named_fit[1])
+        )
 
     for warning in recorder:
         if not issubclass(warning.category, RuntimeWarning):
             warnings.warn(warning.message, warning.category)
 
-    return min(
-        fits,
-        key=lambda distribution: bic(data, distribution)
-    )
+    if return_name:
+        return best_name, best_fit
+    return best_fit
 
 
 def bic(data, distribution):
